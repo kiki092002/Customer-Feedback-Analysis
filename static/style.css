@@ -24,29 +24,29 @@ body {
 
 .chat-message {
     margin-bottom: 15px;
+    display: flex;
 }
 
 .chat-message.user {
-    text-align: left;
+    justify-content: flex-start;
 }
 
 .chat-message.user .message-content {
     background-color: #007bff;
     color: #fff;
-    text-align: left;
 }
 
 .chat-message.bot {
-    text-align: right;
+    justify-content: flex-end;
 }
 
 .chat-message.bot .message-content {
     background-color: #e9ecef;
-    text-align: right;
 }
 
 .message-content {
-    display: inline-block;
     padding: 10px 15px;
     border-radius: 20px;
+    max-width: 70%;
+    word-wrap: break-word;
 }
