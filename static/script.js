@@ -13,7 +13,19 @@ document.getElementById('feedback-form').addEventListener('submit', function(eve
     .then(response => response.json())
     .then(data => {
         let resultDiv = document.getElementById('result');
-        resultDiv.textContent = `Sentiment: ${data.result.label} (Score: ${data.result.score.toFixed(2)})`;
+        let sentiment = data.result.label;
+        let score = data.result.score.toFixed(2);
+        let scoreText = `Sentiment: ${sentiment} (Score: ${score})`;
+
+        resultDiv.textContent = scoreText;
+        resultDiv.className = 'alert';
+
+        if (sentiment === 'POSITIVE') {
+            resultDiv.classList.add('alert-success');
+        } else {
+            resultDiv.classList.add('alert-danger');
+        }
+
         resultDiv.style.display = 'block';
     })
     .catch(error => {
