@@ -14,12 +14,21 @@ def index():
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
-    data = request.form['feedback']
-    result = sentiment_analysis(data)[0]
-    # Adjust score to be negative for negative feedback
-    if result['label'] == 'NEGATIVE':
-        result['score'] = -result['score']
-    return jsonify(result=result)
+    data = request.form['message']
+
+    # Predefined responses for common questions
+    if "hello" in data.lower():
+        return jsonify(result={"label": "POSITIVE", "score": 1, "response": "Hello! How can I assist you today?"})
+    elif "how are you" in data.lower():
+        return jsonify(result={"label": "POSITIVE", "score": 1, "response": "I'm just a bot, but I'm here to help!"})
+    elif "what is your name" in data.lower():
+        return jsonify(result={"label": "POSITIVE", "score": 1, "response": "I'm the Sentiment Analysis Bot!"})
+    else:
+        result = sentiment_analysis(data)[0]
+        if result['label'] == 'NEGATIVE':
+            result['score'] = -result['score']
+        result['response'] = f"Sentiment: {result['label']} (Score: {result['score']})"
+        return jsonify(result=result)
 
 
 if __name__ == '__main__':

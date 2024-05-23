@@ -1,34 +1,54 @@
-document.getElementById('feedback-form').addEventListener('submit', function(event) {
+document.getElementById('chat-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    let feedback = document.getElementById('feedback').value;
+    let chatInput = document.getElementById('chat-input');
+    let message = chatInput.value;
+
+    if (message.trim() === '') return;
+
+    // Add user message to chat
+    addMessageToChat('user', message);
+
+    // Clear input
+    chatInput.value = '';
 
     fetch('/analyze', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: `feedback=${encodeURIComponent(feedback)}`
+        body: `message=${encodeURIComponent(message)}`
     })
     .then(response => response.json())
     .then(data => {
-        let resultDiv = document.getElementById('result');
         let sentiment = data.result.label;
-        let score = data.result.score.toFixed(2);
-        let scoreText = `Sentiment: ${sentiment} (Score: ${score})`;
+        let responseMessage = data.result.response;
 
-        resultDiv.textContent = scoreText;
-        resultDiv.className = 'alert';
-
-        if (sentiment === 'POSITIVE') {
-            resultDiv.classList.add('alert-success');
-        } else {
-            resultDiv.classList.add('alert-danger');
-        }
-
-        resultDiv.style.display = 'block';
+        addMessageToChat('bot', responseMessage, sentiment);
     })
     .catch(error => {
         console.error('Error:', error);
     });
 });
+
+function addMessageToChat(sender, message, sentiment) {
+    let chatBox = document.getElementById('chat-box');
+    let messageElement = document.createElement('div');
+    messageElement.classList.add('chat-message', sender);
+
+    let messageContent = document.createElement('div');
+    messageContent.classList.add('message-content');
+    messageContent.textContent = message;
+
+    if (sender === 'bot') {
+        if (sentiment === 'POSITIVE') {
+            messageContent.style.color = 'blue';
+        } else if (sentiment === 'NEGATIVE') {
+            messageContent.style.color = 'red';
+        }
+    }
+
+    messageElement.appendChild(messageContent);
+    chatBox.appendChild(messageElement);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}

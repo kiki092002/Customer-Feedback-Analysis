@@ -13,39 +13,40 @@ body {
     border-top-right-radius: 10px;
 }
 
-textarea {
-    resize: none;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #004085;
-}
-
-.alert {
-    display: none;
-    font-size: 1.2em;
+#chat-box {
+    height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 15px;
+    background-color: #fff;
     border-radius: 5px;
 }
 
-.alert-success {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    color: #155724;
+.chat-message {
+    margin-bottom: 15px;
 }
 
-.alert-danger {
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-    color: #721c24;
+.chat-message.user {
+    text-align: left;
 }
 
-label {
-    color: #495057;
+.chat-message.user .message-content {
+    background-color: #007bff;
+    color: #fff;
+    text-align: left;
+}
+
+.chat-message.bot {
+    text-align: right;
+}
+
+.chat-message.bot .message-content {
+    background-color: #e9ecef;
+    text-align: right;
+}
+
+.message-content {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 20px;
 }
