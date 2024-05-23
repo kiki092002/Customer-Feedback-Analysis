@@ -3,6 +3,7 @@ from transformers import pipeline
 
 app = Flask(__name__)
 
+# Load pre-trained sentiment-analysis pipeline
 sentiment_analysis = pipeline('sentiment-analysis')
 
 
@@ -18,5 +19,5 @@ def analyze():
     return jsonify(result=result[0])
 
 
-if __name__ == "__main":
+if __name__ == '__main__':
     app.run(debug=True)
